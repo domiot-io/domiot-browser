@@ -1,4 +1,4 @@
-# Document Object Model for IoT (DOMIoT) on Browser
+# DOMIoT: A Document Object Model for IoT (Browser)
 
 Welcome to **DOMIoT Browser**. If you know HTML and JavaScript, you already know how to build interactive IoT systems. DOMIoT lets you use the DOM and web standards to control real-world devices.
 
