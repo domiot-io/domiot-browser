@@ -92,13 +92,7 @@ This example shows a supermarket aisle where **pressing a button next to a produ
 - Press a physical button: shelving unit glows blue, video appears and plays.
 - Release: shelf returns to white, video can be hidden/stopped (etc.).
 
-## Other examples
-
-- **[Buttons Shelving Units - Basic IoT Interaction](https://github.com/domiot-io/domiot-browser/tree/main/examples/0-buttons-shelving-units/)**: This example demonstrates fundamental DOMIoT Browser concepts through a retail store aisle interface where physical button presses trigger video overlays and light color changes on shelving units.
-
-- **[Retail Store Podium with Touch Screen - Interactive Display](https://github.com/domiot-io/domiot-browser/tree/main/examples/1-retail-store-podium-with-touch-screen/)**: This example showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
-
-- **[Six Physical Buttons Connected to a Phidget VINT Modify Div](https://github.com/domiot-io/domiot-browser/tree/main/examples/2-phidget-vint-button-modifies-div/)**: Showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
+Find other examples [here](https://github.com/domiot-io/domiot-browser/tree/main/examples/) .
 
 ## How It Works
 - **HTML Elements** represent real-world devices (physical buttons, shelving-units, items, rooms, etc.).
@@ -218,6 +212,14 @@ The setup and operation of an IoT system using HTML and the DOMIoT is as follows
 Physical components (e.g., sensors, actuators, displays, etc.) should be in place and connected directly or indirectly to a computer such as a single-board computer (SBC) with the appropriate drivers installed, along with a DOMIoT implementation running. Once the HTML is parsed and the DOM tree is generated, the DOMIoT establishes the declared bindings, linking DOM elements to physical components.
 
 Scripts can use the DOMIoT API to access and modify element attributes through methods such as `getElementById`, `getAttribute`, `setAttribute`, and `setProperty`. When a `binding` detects a relevant change in an attribute (including CSS properties), it translates this change into a driver-understandable value and communicates it to the driver, for example, by writing to a driver file. In the other direction, physical changes are communicated from the physical components to the bindings through their drivers, allowing the bindings to update element attributes (including CSS properties) and/or dispatch events. Scripts listening to these events, which are triggered by physical interactions, an can then react by updating attributes, resulting in changes to the physical components of the interactive IoT system.
+
+## Other examples
+
+- **[Buttons Shelving Units - Basic IoT Interaction](https://github.com/domiot-io/domiot-browser/tree/main/examples/0-buttons-shelving-units/)**: This example demonstrates fundamental DOMIoT Browser concepts through a retail store aisle interface where physical button presses trigger video overlays and light color changes on shelving units.
+
+- **[Retail Store Podium with Touch Screen - Interactive Display](https://github.com/domiot-io/domiot-browser/tree/main/examples/1-retail-store-podium-with-touch-screen/)**: This example showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
+
+- **[Six Physical Buttons Connected to a Phidget VINT Modify Div](https://github.com/domiot-io/domiot-browser/tree/main/examples/2-phidget-vint-button-modifies-div/)**: Showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
 
 ## Learn More
 - [Website](https://domiot.org)
