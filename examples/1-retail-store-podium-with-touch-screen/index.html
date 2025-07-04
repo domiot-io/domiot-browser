@@ -12,7 +12,7 @@
 </head>
 
 <iot-section style="display:none;">
-    <iot-ibits-item-binding id="perfumeBinding" location="/dev/iohubx24-sim0" />
+    <iot-ibits-item-binding id="itemBinding" location="/dev/iohubx24-sim0" />
     <iot-obits-color-binding id="tileColorBinding" channels-per-element="1" colors-channel="white" location="/dev/ohubx24-sim0" />
     <iot-obits-color-binding id="columnColorBinding" channels-per-element="1" colors-channel="white" location="/dev/ohubx24-sim1" />
 
@@ -24,22 +24,22 @@
             
             <!-- Tile 1 - Brand1 -->
             <iot-tile id="tile1" style="color:white;" binding="tileColorBinding">
-                <iot-item id="perfume1" brand="Brand1" commercial-start-time="0" binding="perfumeBinding"></iot-item>
+                <iot-item id="perfume1" brand="Brand1" commercial-start-time="0" binding="itemBinding" />
             </iot-tile>
             
             <!-- Tile 2 - Brand2 -->
             <iot-tile id="tile2" style="color:white;" binding="tileColorBinding">
-                <iot-item id="perfume2" brand="Brand2" commercial-start-time="5" binding="perfumeBinding"></iot-item>
+                <iot-item id="perfume2" brand="Brand2" commercial-start-time="5" binding="itemBinding" />
             </iot-tile>
             
             <!-- Tile 3 - Brand3 -->
             <iot-tile id="tile3" style="color:white;" binding="tileColorBinding">
-                <iot-item id="perfume3" brand="Brand3" commercial-start-time="12.3" binding="perfumeBinding"></iot-item>
+                <iot-item id="perfume3" brand="Brand3" commercial-start-time="12.3" binding="itemBinding" />
             </iot-tile>
             
             <!-- Tile 4 - Brand4 -->
             <iot-tile id="tile4" style="color:white;" binding="tileColorBinding">
-                <iot-item id="perfume4" brand="Brand4" commercial-start-time="16.5" binding="perfumeBinding"></iot-item>
+                <iot-item id="perfume4" brand="Brand4" commercial-start-time="16.5" binding="itemBinding" />
             </iot-tile>
             
         </iot-podium>
@@ -112,7 +112,7 @@
     </div>
 </body>
 <script>
-    const domiot = DOMIoT([retailElements, iotBindings], 'ws://localhost:8080');
+    DOMIoT([retailElements, iotBindings], 'ws://localhost:8080');
 
     // Get references to elements
     const videos = document.querySelectorAll('.perfume-video');

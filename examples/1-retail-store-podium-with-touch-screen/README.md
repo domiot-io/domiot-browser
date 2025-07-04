@@ -117,7 +117,7 @@ Open `index.html` in a web browser. Open the developer tools to see the logs (F1
 
         <iot-podium id="mainPodium">
             <iot-tile id="tile1" style="color:white;" binding="tileColorBinding">
-                <iot-item id="perfume1" brand="Brand1" commercial-start-time="0" binding="perfumeBinding"></iot-item>
+                <iot-item id="perfume1" brand="Brand1" commercial-start-time="0" binding="itemBinding"></iot-item>
             </iot-tile>
             <!-- ... more tiles ... -->
         </iot-podium>
