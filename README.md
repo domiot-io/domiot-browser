@@ -1,6 +1,6 @@
-# DOMIoT: A Document Object Model for IoT (Browser)
+# DOMIoT: A Document Object Model for IoT (for Browser Environments)
 
-Welcome to **DOMIoT Browser**. If you know HTML and JavaScript, you already know how to build interactive IoT systems. DOMIoT lets you use the DOM and web standards to control real-world devices.
+If you know HTML and JavaScript, you already know how to build interactive IoT systems. DOMIoT lets you use the DOM and web standards to control real-world devices.
 
 DOMIoT uses the standard DOM API, exposing familiar web development methods such as `getElementById`, `setAttribute`, and `addEventListener`. This allows interaction between web applications and physical devices using the same HTML/DOM interfaces you use to code a web page.
 
@@ -91,6 +91,14 @@ This example shows a supermarket aisle where **pressing a button next to a produ
 **What you see:**
 - Press a physical button: shelving unit glows blue, video appears and plays.
 - Release: shelf returns to white, video can be hidden/stopped (etc.).
+
+## Other examples
+
+- **[Buttons Shelving Units - Basic IoT Interaction](https://github.com/domiot-io/domiot-browser/tree/main/examples/0-buttons-shelving-units/)**: This example demonstrates fundamental DOMIoT Browser concepts through a retail store aisle interface where physical button presses trigger video overlays and light color changes on shelving units.
+
+- **[Retail Store Podium with Touch Screen - Interactive Display](https://github.com/domiot-io/domiot-browser/tree/main/examples/1-retail-store-podium-with-touch-screen/)**: This example showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
+
+- **[Six Physical Buttons Connected to a Phidget VINT Modify Div](https://github.com/domiot-io/domiot-browser/tree/main/examples/2-phidget-vint-button-modifies-div/)**: Showcases the integration of physical touch buttons with a web application, allowing physical button presses and releases to modify web page elements.
 
 ## How It Works
 - **HTML Elements** represent real-world devices (physical buttons, shelving-units, items, rooms, etc.).
