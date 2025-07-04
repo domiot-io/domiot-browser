@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMIoT Retail Store Podium with Touch Screen</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../lib/bdcom.1.0.0.min.js"></script>
+    <script src="../lib/domiot.1.0.0.min.js"></script>
+    <script src="../lib/retail-elements.1.0.0.min.js"></script>
+    <script src="../lib/iot-bindings.1.0.1.min.js"></script>
+</head>
+
+<iot-section style="display:none;">
+    <iot-ibits-item-binding id="perfumeBinding" location="/dev/iohubx24-sim0" />
+    <iot-obits-color-binding id="tileColorBinding" channels-per-element="1" colors-channel="white" location="/dev/ohubx24-sim0" />
+    <iot-obits-color-binding id="columnColorBinding" channels-per-element="1" colors-channel="white" location="/dev/ohubx24-sim1" />
+
+    <!-- Main Display Unit Structure -->
+    <iot-display-unit id="perfumeDisplayUnit">
+        
+        <!-- Main Podium with 4 Tiles -->
+        <iot-podium id="mainPodium">
+            
+            <!-- Tile 1 - Brand1 -->
+            <iot-tile id="tile1" style="color:white;" binding="tileColorBinding">
+                <iot-item id="perfume1" brand="Brand1" commercial-start-time="0" binding="perfumeBinding"></iot-item>
+            </iot-tile>
+            
+            <!-- Tile 2 - Brand2 -->
+            <iot-tile id="tile2" style="color:white;" binding="tileColorBinding">
+                <iot-item id="perfume2" brand="Brand2" commercial-start-time="5" binding="perfumeBinding"></iot-item>
+            </iot-tile>
+            
+            <!-- Tile 3 - Brand3 -->
+            <iot-tile id="tile3" style="color:white;" binding="tileColorBinding">
+                <iot-item id="perfume3" brand="Brand3" commercial-start-time="12.3" binding="perfumeBinding"></iot-item>
+            </iot-tile>
+            
+            <!-- Tile 4 - Brand4 -->
+            <iot-tile id="tile4" style="color:white;" binding="tileColorBinding">
+                <iot-item id="perfume4" brand="Brand4" commercial-start-time="16.5" binding="perfumeBinding"></iot-item>
+            </iot-tile>
+            
+        </iot-podium>
+        
+        <!-- Storage Columns beneath each Tile -->
+        <iot-column id="column1" style="color:white;" binding="columnColorBinding">
+            <iot-cubby id="cubby1-1"></iot-cubby>
+            <iot-cubby id="cubby1-2"></iot-cubby>
+            <iot-cubby id="cubby1-3"></iot-cubby>
+        </iot-column>
+        
+        <iot-column id="column2" style="color:white;" binding="columnColorBinding">
+            <iot-cubby id="cubby2-1"></iot-cubby>
+            <iot-cubby id="cubby2-2"></iot-cubby>
+            <iot-cubby id="cubby2-3"></iot-cubby>
+        </iot-column>
+        
+        <iot-column id="column3" style="color:white;" binding="columnColorBinding">
+            <iot-cubby id="cubby3-1"></iot-cubby>
+            <iot-cubby id="cubby3-2"></iot-cubby>
+            <iot-cubby id="cubby3-3"></iot-cubby>
+        </iot-column>
+        
+        <iot-column id="column4" style="color:white;" binding="columnColorBinding">
+            <iot-cubby id="cubby4-1"></iot-cubby>
+            <iot-cubby id="cubby4-2"></iot-cubby>
+            <iot-cubby id="cubby4-3"></iot-cubby>
+        </iot-column>
+        
+    </iot-display-unit>
+</iot-section>
+
+<body>
+    <div class="perfume-display-container">
+        <!-- Brand 1 Video -->
+        <div class="video-container">
+            <video class="perfume-video" muted>
+                <source src="videos/perfume-brand1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="perfume-label">Brand 1<br>Elegance</div>
+        </div>
+        
+        <!-- Brand 2 Video -->
+        <div class="video-container">
+            <video class="perfume-video" muted>
+                <source src="videos/perfume-brand2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="perfume-label">Brand 2<br>Sophistication</div>
+        </div>
+        
+        <!-- Brand 3 Video -->
+        <div class="video-container">
+            <video class="perfume-video" muted>
+                <source src="videos/perfume-brand3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="perfume-label">Brand 3<br>Allure</div>
+        </div>
+        
+        <!-- Brand 4 Video -->
+        <div class="video-container">
+            <video class="perfume-video" muted>
+                <source src="videos/perfume-brand4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="perfume-label">Brand 4<br>Mystique</div>
+        </div>
+    </div>
+</body>
+<script>
+    const domiot = DOMIoT([retailElements, iotBindings], 'ws://localhost:8080');
+
+    // Get references to elements
+    const videos = document.querySelectorAll('.perfume-video');
+    const videoContainers = document.querySelectorAll('.video-container');
+    const perfumes = document.querySelectorAll('#perfumeDisplayUnit iot-item');
+    const tiles = document.querySelectorAll('#perfumeDisplayUnit iot-tile');
+    const columns = document.querySelectorAll('#perfumeDisplayUnit iot-column');
+    
+    // State management
+    let lastPickedUp = null;
+    let lightTimeout = null;
+    let currentPlayingVideo = null;
+    let currentPlayingIndex = -1;
+    let isAnimating = false;
+    let isTouchscreen = false;
+    
+    function hideScrollbars() {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+    }
+    
+    function closeCurrentVideo() {
+        if (currentPlayingIndex >= 0 && currentPlayingIndex < videoContainers.length) {
+            const closingContainer = videoContainers[currentPlayingIndex];
+            closingContainer.classList.add('closing');
+            closingContainer.classList.remove('fullscreen');
+            
+            setTimeout(() => {
+                closingContainer.classList.remove('closing');
+            }, 1100);
+        }
+    }
+    
+    function expandVideoToFullscreen(videoIndex) {
+        if (isAnimating || videoIndex < 0 || videoIndex >= videoContainers.length) return;
+        
+        isAnimating = true;
+        hideScrollbars();
+        
+        const targetContainer = videoContainers[videoIndex];
+        targetContainer.classList.remove('closing');
+        
+        videoContainers.forEach((container, index) => {
+            if (index !== videoIndex) {
+                container.classList.add('hidden');
+            } else {
+                setTimeout(() => {
+                    container.classList.add('fullscreen');
+                }, 1000);
+            }
+        });
+        
+        setTimeout(() => {
+            isAnimating = false;
+        }, 1000);
+    }
+    
+    function returnToGridView() {
+        if (isAnimating) return;
+        
+        isAnimating = true;
+        closeCurrentVideo();
+        
+        videoContainers.forEach(container => {
+            container.classList.remove('hidden', 'fullscreen', 'closing');
+        });
+        
+        isAnimating = false;
+    }
+    
+    function stopAllVideosAndShowFirstFrame() {
+        videos.forEach(video => {
+            video.pause();
+            video.currentTime = 0;
+            video.loop = false;
+        });
+        
+        if (currentPlayingIndex >= 0) {
+            returnToGridView();
+        }
+        
+        currentPlayingVideo = null;
+        currentPlayingIndex = -1;
+    }
+    
+    function playVideo(videoIndex) {
+        if (videoIndex >= 0 && videoIndex < videos.length) {
+            stopAllVideosAndShowFirstFrame();
+            
+            const video = videos[videoIndex];
+            currentPlayingVideo = video;
+            currentPlayingIndex = videoIndex;
+            
+            video.currentTime = 0;
+            video.loop = true;
+            video.play();
+            
+            expandVideoToFullscreen(videoIndex);
+        }
+    }
+    
+    function setTileAndColumnColor(tileIndex, color) {
+        console.log(`Setting tile ${tileIndex} and column ${tileIndex} to ${color}`);
+        if (tileIndex >= 0 && tileIndex < tiles.length) {
+            tiles[tileIndex].style.setProperty('color', color);
+            columns[tileIndex].style.setProperty('color', color);
+        }
+    }
+    
+    function turnOnAllLights() {
+        console.log('All white lights up');
+        for (let i = 0; i < tiles.length; i++) {
+            setTileAndColumnColor(i, 'white');
+        }
+    }
+    
+    // turn on all the lights
+    // stop videos and show first frame of each video.
+    function returnToDefaultState() {
+        turnOnAllLights();
+        lastPickedUp = null;
+        isTouchscreen = false;
+        stopAllVideosAndShowFirstFrame();
+    }
+    
+    function illuminateForPerfume(activeIndex) {
+        console.log(`Illuminating for perfume ${activeIndex + 1}`);
+        for (let i = 0; i < tiles.length; i++) {
+            const color = (i === activeIndex) ? 'white' : 'black';
+            setTileAndColumnColor(i, color);
+        }
+    }
+    
+    // After 10 seconds, turn on all the lights
+    // stop videos and reset to default state
+    function startLightTimeout() {
+        if (lightTimeout) {
+            clearTimeout(lightTimeout);
+        }
+        
+        lightTimeout = setTimeout(() => {
+            if (lastPickedUp || isTouchscreen) {
+                returnToDefaultState();
+            }
+        }, 10000);
+    }
+    
+    // Handle pickup events
+    perfumes.forEach((perfume, index) => {
+        perfume.addEventListener('pickup', (ev) => {
+            const perfume = ev.target;
+            const brand = perfume.getAttribute('brand');
+            console.log(`Perfume ${index + 1} (${brand}) picked up`);
+            
+            // Set as the last picked up item
+            lastPickedUp = perfume;
+            illuminateForPerfume(index);
+            playVideo(index);
+            startLightTimeout();
+        });
+        
+        perfume.addEventListener('putdown', (ev) => {
+            const perfume = ev.target;
+            const brand = perfume.getAttribute('brand');
+            console.log(`Perfume ${index + 1} (${brand}) put down`);
+            
+            // Only process if this was the last picked up item
+            if (lastPickedUp === perfume) {
+                if (lightTimeout) {
+                    clearTimeout(lightTimeout);
+                    lightTimeout = null;
+                }
+                returnToDefaultState();
+            }
+        });
+    });
+
+    // Add click/touch interaction to videos
+    videoContainers.forEach((container, index) => {
+        const handleInteraction = (event) => {
+            if (!isAnimating) {
+                if (currentPlayingIndex !== index) {
+                    isTouchscreen = true;
+                    illuminateForPerfume(index);
+                    playVideo(index);
+                    startLightTimeout();
+                } else {
+                    if (lightTimeout) {
+                        clearTimeout(lightTimeout);
+                        lightTimeout = null;
+                    }
+                    returnToDefaultState();
+                }
+            }
+        };
+        
+        container.addEventListener('click', handleInteraction);
+        
+        container.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            handleInteraction(event);
+        });
+    });
+
+    // Initialize default state
+    returnToDefaultState();
+</script>
+</html> 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMIoT Physical-Digital Video Interaction</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../lib/bdcom.1.0.0.min.js"></script>
+    <script src="../lib/domiot.1.0.0.min.js"></script>
+    <script src="../lib/retail-elements.1.0.0.min.js"></script>
+    <script src="../lib/iot-bindings.1.0.1.min.js"></script>
+</head>
+<iot-section style="display:none;">
+    <iot-aisle id="aisle6" name="Coffee, Hot Beverages, Cookies & Chocolate">
+
+        <iot-ibits-button-binding id="a6ButtonBinding" location="/dev/ihubx24-sim0">
+        <iot-obits-color-binding id="a6ColorBinding" channels-per-element="2" colors-channel="white;blue" location="/dev/ohubx24-sim0">
+
+        <iot-button id="a6Product1Button" shelving-unit-id="a6L1" binding="a6ButtonBinding">
+        <iot-button id="a6Product2Button" shelving-unit-id="a6L2" binding="a6ButtonBinding">
+        <iot-button id="a6Product3Button" shelving-unit-id="a6L3" binding="a6ButtonBinding">
+        <iot-button id="a6Product4Button" shelving-unit-id="a6R1" binding="a6ButtonBinding">
+        <iot-button id="a6Product5Button" shelving-unit-id="a6R2" binding="a6ButtonBinding">
+        <iot-button id="a6Product6Button" shelving-unit-id="a6R3" binding="a6ButtonBinding">
+
+        <iot-shelving-unit id="a6L1" name="Ground Coffee" video-src="videos/coffee-beans-by-Mixkit.mp4" style="color:white;" binding="a6ColorBinding">
+        <iot-shelving-unit id="a6L2" name="Coffee Pods & K-Cups" video-src="videos/coffee-machine-by-Coverr.mp4" style="color:white;" binding="a6ColorBinding">
+        <iot-shelving-unit id="a6L3" name="Cookies and Biscuits" video-src="videos/cookies-by-Anh-Nguyen.mp4" style="color:white;" binding="a6ColorBinding">
+
+        <iot-shelving-unit id="a6R1" name="Premium Chocolate & Candy" video-src="videos/chocolate-by-Kapaw.mp4" style="color:white;" binding="a6ColorBinding">
+        <iot-shelving-unit id="a6R2" name="Tea Selection" video-src="videos/tea-by-Saikat.mp4" style="color:white;" binding="a6ColorBinding">
+        <iot-shelving-unit id="a6R3" name="Snack Cakes, Muffins, Mini Pastries" video-src="videos/muffins-by-SHVETS.mp4" style="color:white;" binding="a6ColorBinding">
+
+    </iot-aisle>
+</iot-section>
+<body>
+    
+    <div class="main-content">
+        <div class="status-text">DOMIoT Physical-Digital Integration</div>
+        <div class="status-text">Start bdcom-server</div>
+        <div class="status-text">Physical buttons will be simulated to trigger immersive video experiences</div>
+    </div>
+    
+    <!-- Full-screen Video Overlay -->
+    <div id="videoOverlay" style="display:flex;">
+        <video id="fullscreenVideo" autoplay muted loop>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="video-info">
+            <h3 id="videoTitle">Product Video</h3>
+            <p id="videoDescription">Physical button interaction triggered this video</p>
+        </div>
+    </div>
+</body>
+<script>
+    DOMIoT([iotBindings, retailElements]);
+
+    // Video management
+    const videoOverlay = document.getElementById('videoOverlay');
+    const fullscreenVideo = document.getElementById('fullscreenVideo');
+    const videoTitle = document.getElementById('videoTitle');
+    const videoDescription = document.getElementById('videoDescription');
+
+    const buttons = document.querySelectorAll('#aisle6 iot-button');
+
+    // Set up button event listeners
+
+    // light up in blue the corresponding shelving unit when a button is pressed
+    // and play the corresponding video.
+    buttons.forEach(button => {
+        button.addEventListener('press', (ev) => {
+            const shelvingUnitId = ev.target.getAttribute('shelving-unit-id');
+            if (!shelvingUnitId) return;
+
+            const shelvingUnit = document.getElementById(shelvingUnitId);
+            
+            if (shelvingUnit) {
+                console.log(`Button ${ev.target.id} pressed, change color of the ${shelvingUnit.id} shelving unit to blue`);
+                shelvingUnit.style.setProperty('color', 'blue');
+
+                const videoSrc = shelvingUnit.getAttribute('video-src');
+                fullscreenVideo.currentTime = 0;
+                fullscreenVideo.src = videoSrc;
+
+                const productName = shelvingUnit.getAttribute('name');
+                videoTitle.textContent = productName;
+                videoDescription.textContent = `Physical button interaction triggered: ${productName} showcase video`;
+                
+            }
+        });
+
+        // light up in white (normal lights) the corresponding shelving
+        // unit when a button is released.
+        button.addEventListener('release', (ev) => {
+            const shelvingUnitId = ev.target.getAttribute('shelving-unit-id');
+            if (!shelvingUnitId) return;
+
+            const shelvingUnit = document.getElementById(shelvingUnitId);
+            
+            if (shelvingUnit) {
+                console.log(`Button ${ev.target.id} released, change color of the ${shelvingUnit.id} shelving unit to white`);
+                shelvingUnit.style.setProperty('color', 'white');
+            }
+        });
+    });
+</script>
+</html> 

@@ -1,0 +1,29 @@
+{
+  "name": "domiot-browser",
+  "version": "1.0.0",
+  "description": "Implementation for browsers of the Document Object Model for IoT: Extends the native DOM to support IoT elements and hardware bindings. You can interact with physical IoT devices using the same DOM API methods used in web development such as getElementById, setAttribute and addEventListener.",
+  "author": "Alvaro Fernandez ( domiot.org )",
+  "license": "MIT",
+  "keywords": [
+    "domiot",
+    "iot",
+    "internet of things",
+    "physical systems",
+    "Intelligent buildings",
+    "smart homes",
+    "smart cities",
+    "browser",
+    "drivers",
+    "realtime",
+    "bindings"
+  ],
+  "main": "server/bdcom-server.js",
+  "scripts": {
+    "start": "node server/bdcom-server.js"
+  },
+  "dependencies": {
+    "ws": "^8.14.0",
+    "another-mutex": "^0.0.0",
+    "keep-streaming": "^1.2.0"
+  }
+} 

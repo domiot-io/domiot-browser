@@ -1,0 +1,40 @@
+# BDCOM Security Whitelist - Allowed Driver Paths
+# 
+# This file defines which driver paths are allowed for BDCOM communication.
+# Each line represents a pattern that will be matched against driver locations.
+# 
+# Supported patterns:
+#   - Exact match: /dev/ihubx24-sim0
+#   - Prefix match: /dev/ihubx24-sim*
+#   - Suffix match: *sim0
+#   - Contains match: /dev/*sim* , /dev*-sim* , */tmp/*sim* , etc.
+#   - Allow all: *
+#
+# Examples:
+#   - /dev*-sim* matches: /dev/board-sim0, /devtest-sim1, /dev/custom-sim-device
+#   - *sim*x24 matches: /dev/test-sim-ihubx24, /sim-ohubx24
+#   - /dev/*/sim* matches: /dev/test/sim0, /dev/board/sim-device
+#
+# Lines starting with # are comments and will be ignored.
+# Empty lines are also ignored.
+
+# Allow all simulation drivers
+/dev*-sim*
+
+# Alternative: If you want to be more restrictive during development,
+# uncomment specific patterns below and comment out the * above:
+
+# /dev/ihubx24-sim*
+# /dev/ohubx24-sim*  
+# /dev/iohubx24-sim*
+# /dev/phidgetvintx60*
+# /dev/display-sim*
+# /dev/lock-sim*
+# /tmp/*
+# /home/*/dev/* 
+
+# Allow specific Phidget devices
+/dev/phidgetvintx60*
+
+# Allow all paths (development only!)
+# * 

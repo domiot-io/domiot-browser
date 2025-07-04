@@ -1,0 +1,115 @@
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 20px;
+    background-color: #000000;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Remove scrollbars */
+}
+
+html {
+    overflow: hidden; /* Remove scrollbars */
+}
+
+.main-content {
+    text-align: center;
+    z-index: 10;
+}
+
+.status-text {
+    font-size: 1rem;
+    color: #00d4ff;
+    margin-top: 2rem;
+    opacity: 0.8;
+}
+
+/* Full-screen video overlay */
+#videoOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    display: none;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#fullscreenVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1001;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.video-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    color: #00d4ff;
+}
+
+.video-info p {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.9;
+    color: #ffffff;
+}
+
+/* Hide all video controls */
+#fullscreenVideo::-webkit-media-controls {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-play-button {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-timeline {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-current-time-display {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-time-remaining-display {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-mute-button {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-volume-slider {
+    display: none !important;
+}
+
+#fullscreenVideo::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+#fullscreenVideo {
+    pointer-events: none;
+} 
